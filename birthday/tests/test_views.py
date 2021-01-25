@@ -1,5 +1,6 @@
 import pytest
 import json
+from datetime import date
 from django.urls import reverse
 from birthday.models import UserBirthday
 
@@ -105,3 +106,47 @@ def test_failure_creation_of_no_required_fields(api_client):
         url, json.dumps(missing_birthday), format="json"
     )
     assert missing_birthday_response.status_code == 400
+
+
+@pytest.mark.django_db
+def test_success_get_listing_of_birthdays(api_client):
+    url = reverse("birthdays-list")
+    UserBirthday.objects.create(
+        first_name="Birthday User",
+        last_name="Last Name",
+        email="kimkim@test.com",
+        birthday=date.fromisoformat("1999-12-04"),
+    )
+
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    assert UserBirthday.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_success_get_listing_of_birthdays_filtered(api_client):
+    url = reverse("birthdays-list")
+    UserBirthday.objects.create(
+        first_name="Birthday User",
+        last_name="Last Name",
+        email="kimkim@test.com",
+        birthday=date.fromisoformat("2000-12-04"),
+    )
+    UserBirthday.objects.create(
+        first_name="Birthday Two",
+        last_name="Last Name",
+        email="kimkim2@test.com",
+        birthday=date.fromisoformat("1999-11-02"),
+    )
+    UserBirthday.objects.create(
+        first_name="Birthday three",
+        last_name="Last Name",
+        email="kimkim3@test.com",
+        birthday=date.fromisoformat("1999-11-28"),
+    )
+
+    response = api_client.get(url, {"_from": "1999-01-11", "to": "1999-11-30"})
+    assert response.status_code == 200
+    assert len(response.json()) == 2
+    assert UserBirthday.objects.count() == 3
