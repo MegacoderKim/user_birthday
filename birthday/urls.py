@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import UserBirthdayCreateListView, UserBirthDayList
+from .views import UserBirthdayCreateListView, UserBirthDayList, GetAverageAge
 
 
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
         "userbirthdays", UserBirthdayCreateListView.as_view(), name="birthdays-create"
     ),
     path("userbirthdayslits", UserBirthDayList.as_view(), name="birthdays-list"),
+    path("usersaverageage", GetAverageAge.as_view(), name="average_age"),
 ]

@@ -1,7 +1,6 @@
+from datetime import date
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-# Create your models here.
 
 
 class UserBirthday(models.Model):
@@ -13,6 +12,15 @@ class UserBirthday(models.Model):
     )
     email = models.EmailField(_("Email"), unique=True, null=False, blank=False)
     birthday = models.DateField(_("Birthday"), null=False, blank=False)
+
+    @property
+    def age(self):
+        today = date.today()
+        return (
+            today.year
+            - self.birthday.year
+            - ((today.month, today.day) < (self.birthday.month, self.birthday.day))
+        )
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

@@ -110,3 +110,11 @@ REST_FRAMEWORK = {
     ],
     "DATE_INPUT_FORMATS": ["%d.%m.%Y"],
 }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    }
+}
+
+AVERAGE_AGE_KEY = "avg_age"

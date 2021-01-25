@@ -150,3 +150,30 @@ def test_success_get_listing_of_birthdays_filtered(api_client):
     assert response.status_code == 200
     assert len(response.json()) == 2
     assert UserBirthday.objects.count() == 3
+
+
+@pytest.mark.django_db
+def test_get_average(api_client):
+    url = reverse("average_age")
+    UserBirthday.objects.create(
+        first_name="Birthday User",
+        last_name="Last Name",
+        email="kimkim@test.com",
+        birthday=date.fromisoformat("2000-01-12"),
+    )
+    UserBirthday.objects.create(
+        first_name="Birthday Two",
+        last_name="Last Name",
+        email="kimkim2@test.com",
+        birthday=date.fromisoformat("1999-01-25"),
+    )
+    UserBirthday.objects.create(
+        first_name="Birthday three",
+        last_name="Last Name",
+        email="kimkim3@test.com",
+        birthday=date.fromisoformat("1998-01-25"),
+    )
+
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert response.json()["average_age"] == 22
