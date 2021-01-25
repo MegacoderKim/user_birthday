@@ -1,4 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 
 
-urlpatterns = []
+apipatterns = [path("", include("birthday.urls"))]
+
+urlpatterns = [path("api/v1", include(apipatterns))]
