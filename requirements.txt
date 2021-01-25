@@ -7,8 +7,3 @@ django-rest-swagger==2.2.0
 # testing
 pytest-django==4.1.0
 pytest-cov==2.11.1
-
-
-
-
-
