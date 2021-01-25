@@ -1,4 +1,13 @@
 Django==3.0.7
 psycopg2-binary==2.8.5
+djangorestframework==3.12.2
+djangorestframework-api-key==2.0.0
+
+# testing
+pytest-django==4.1.0
+pytest-cov==2.11.1
+
+
+
 
 

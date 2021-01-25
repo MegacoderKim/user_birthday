@@ -16,6 +16,11 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.staticfiles",
+    # Thirdparty apps
+    "rest_framework",
+    "rest_framework_api_key",
+    # my apps
+    "birthday",
 ]
 
 MIDDLEWARE = [
@@ -97,3 +102,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = "/static/"
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework_api_key.permissions.HasAPIKey",
+    ]
+}
